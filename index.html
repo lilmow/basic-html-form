@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Form</title>
+    <style>
+		body {
+    font-family: Arial, sans-serif;
+    margin-top: 50px;
+}
+
+form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+input,
+select {
+    width: 100%;
+    height: 40px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-size: larger;
+    border-radius: 5px;
+}
+.error {
+	color: red;
+	font-size: 12px;
+	margin-bottom: 10px;
+}
+.success {
+	color: green;
+	font-size: 16px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+	</style>
+</head>
+<body>
+	<form id="myForm" action="#" method="post">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+		<label for="email">Email Address:</label>
+		<input type="email" id="email" name="email" placeholder="Enter your email address" required>
+
+		<label for="phone">Phone Number:</label>
+		<input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+
+		<label for="gender">Gender:</label>
+		<select id="gender" name="gender">
+			<option value="">Select Gender</option>
+			<option value="male">Male</option>
+			<option value="female">Female</option>
+		</select>
+
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+		<input class="submit" type="submit" value="Submit">
+	</form>
+
+	<script>
+		function validateForm() {
+    event.preventDefault(); // prevent form submission if validation fails
+  
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let phone = document.getElementById("phone").value;
+    let gender = document.getElementById("gender").value;
+    let password = document.getElementById("password").value;
+    let formIsValid = true;
+  
+    // Validate name
+    if (name === "") {
+      showError("name", "Name must be filled out");
+      formIsValid = false;
+    } else {
+      showSuccess("name");
+    }
+  
+    // Validate email
+    if (email === "") {
+      showError("email", "Email must be filled out");
+      formIsValid = false;
+    } else if (!isValidEmail(email)) {
+      showError("email", "Please enter a valid email address");
+      formIsValid = false;
+    } else {
+      showSuccess("email");
+    }
+  
+    // Validate phone number
+    if (phone === "") {
+      showError("phone", "Phone number must be filled out");
+      formIsValid = false;
+    } else if (!isValidPhone(phone)) {
+      showError("phone", "Please enter a valid 10 digit phone number");
+      formIsValid = false;
+    } else {
+      showSuccess("phone");
+    }
+  
+    // Validate gender
+    if (gender === "") {
+      showError("gender", "Please select your gender");
+      formIsValid = false;
+    } else {
+      showSuccess("gender");
+    }
+  
+    // Validate password
+    if (password === "") {
+      showError("password", "Password must be filled out");
+      formIsValid = false;
+    } else if (!isValidPassword(password)) {
+      showError(
+        "password",
+        "Please enter a password that is at least 8 characters long, contains at least one uppercase letter, one lowercase letter, and one digit"
+      );
+      formIsValid = false;
+    } else {
+      showSuccess("password");
+    }
+  
+    // Submit form if all validations pass
+    if (formIsValid) {
+      showSuccess("form");
+      document.getElementById("myForm").submit();
+    }
+  }
+  
+  function showError(inputId, errorMessage) {
+    document.getElementById(inputId).classList.remove("success");
+    document.getElementById(inputId).classList.add("error");
+    document.getElementById(inputId + "-error").innerHTML = errorMessage;
+  }
+  
+  function showSuccess(inputId) {
+    document.getElementById(inputId).classList.remove("error");
+    document.getElementById(inputId).classList.add("success");
+    document.getElementById(inputId + "-error").innerHTML = "";
+  }
+  
+  function isValidEmail(email) {
+    // Regular expression for email validation
+    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  }
+  
+  function isValidPhone(phone) {
+    // Regular expression for 10 digit phone number validation
+    let regex = /^\d{10}$/;
+    return regex.test(phone);
+  }
+  
+  function isValidPassword(password) {
+    // Regular expression for password validation
+    let regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    return regex.test(password);
+  }
+  
+	</script>
+</body>
+</html>
